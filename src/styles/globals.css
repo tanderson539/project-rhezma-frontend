@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+.bg-main {
+    background-color: #020024;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: -11;
+}
+
+.primary-bg {
+    background-color: #0d0c1d;
+}
+
+.secondary-bg {
+    background-color: #1c1b29;
+}
+
+.text-primary {
+    color: #e8e9f3;
+}
+
+.site-body {
+    display: flex;
+    justify-content: center;
+    font-family: 'Orbitron', 'Roboto', 'Montserrat', sans-serif;
+}
+
+.min-h-3-4-screen {
+    min-height: 83vh;
+}
