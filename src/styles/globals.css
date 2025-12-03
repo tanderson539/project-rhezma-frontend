@@ -28,3 +28,16 @@
 .min-h-3-4-screen {
     min-height: 83vh;
 }
+
+.grow {
+    transition: all 0.2s ease-in-out;
+}
+
+.grow:hover {
+    transform: scale(1.1);
+}
+
+.crosshair:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 5px #334155;
+}
