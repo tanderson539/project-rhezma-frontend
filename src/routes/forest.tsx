@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import TreeButton from '@components/forestry/buttons/TreeButton';
-import { useResourceStore } from '@root/store';
 import OakTreeButton from '@components/forestry/buttons/OakTreeButton';
+import { useResourceStore } from '@root/stores/useResourceStore';
 
 export const Route = createFileRoute('/forest')({
     component: RouteComponent,

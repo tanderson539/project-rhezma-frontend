@@ -1,4 +1,4 @@
-import type { NavItem } from '../../types/GlobalTypes';
+import type { NavItem } from '../../game/types/GlobalTypes';
 import NavLink from './NavLink';
 
 const navItems: NavItem[] = [
@@ -6,6 +6,7 @@ const navItems: NavItem[] = [
     { to: '/about', label: 'About', icon: '📊' },
     { to: '/city', label: 'City', icon: '🏙️' },
     { to: '/forest', label: 'Forest', icon: '🌲' },
+    { to: '/skills', label: 'Skills', icon: '🛠️' },
 ];
 
 const NavbarSide = () => {

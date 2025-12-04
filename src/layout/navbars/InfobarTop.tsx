@@ -1,5 +1,6 @@
+import { usePlayerStore } from '@root/stores/usePlayerStore';
+import { useResourceStore } from '@root/stores/useResourceStore';
 import { useShallow } from 'zustand/shallow';
-import { usePlayerStore, useResourceStore } from '../../store';
 
 const InfobarTop = () => {
     const { woodAmt, stoneAmt, ironAmt } = useResourceStore(

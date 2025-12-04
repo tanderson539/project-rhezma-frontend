@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as ForestRouteImport } from './routes/forest'
 import { Route as CityRouteImport } from './routes/city'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForestRoute = ForestRouteImport.update({
   id: '/forest',
   path: '/forest',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/city': typeof CityRoute
   '/forest': typeof ForestRoute
+  '/skills': typeof SkillsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/city': typeof CityRoute
   '/forest': typeof ForestRoute
+  '/skills': typeof SkillsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/city': typeof CityRoute
   '/forest': typeof ForestRoute
+  '/skills': typeof SkillsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/city' | '/forest'
+  fullPaths: '/' | '/about' | '/city' | '/forest' | '/skills'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/city' | '/forest'
-  id: '__root__' | '/' | '/about' | '/city' | '/forest'
+  to: '/' | '/about' | '/city' | '/forest' | '/skills'
+  id: '__root__' | '/' | '/about' | '/city' | '/forest' | '/skills'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CityRoute: typeof CityRoute
   ForestRoute: typeof ForestRoute
+  SkillsRoute: typeof SkillsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/forest': {
       id: '/forest'
       path: '/forest'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CityRoute: CityRoute,
   ForestRoute: ForestRoute,
+  SkillsRoute: SkillsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
