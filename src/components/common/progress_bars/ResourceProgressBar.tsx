@@ -2,16 +2,23 @@ import type { FC } from 'react';
 
 interface Props {
     progress?: number;
-    max?: number;
-    className?: string;
+    barClassName?: string;
+    fillClassName?: string;
 }
 
 const ResourceProgressBar: FC<Props> = ({
     progress = 0,
-    max = 100,
-    className,
+    barClassName = '',
+    fillClassName = '',
 }) => {
-    return <progress value={progress} max={max} className={`${className}`} />;
+    return (
+        <div className={`bg-gray-600 ${barClassName}`}>
+            <div
+                className={`h-full bg-green-600 transition-all duration-500 ease-in-out ${fillClassName}`}
+                style={{ width: `${progress}%` }}
+            ></div>
+        </div>
+    );
 };
 
 export default ResourceProgressBar;

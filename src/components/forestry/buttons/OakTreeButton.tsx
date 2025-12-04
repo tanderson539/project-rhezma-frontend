@@ -7,7 +7,7 @@ interface Props {
     className?: string;
 }
 
-const OakTreeButton: FC<Props> = ({ onClick, className }) => {
+const OakTreeButton: FC<Props> = ({ onClick, className = '' }) => {
     return (
         <ResourceButton
             header="Oak Tree"
