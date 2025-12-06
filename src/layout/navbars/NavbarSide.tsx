@@ -1,25 +1,37 @@
 import type { NavItem } from '../../game/types/GlobalTypes';
-import NavLink from './NavLink';
+import NavList from '@components/common/lists/NavList';
 
-const navItems: NavItem[] = [
+const cityNavItems: NavItem[] = [
     { to: '/', label: 'Home', icon: '🏠' },
-    { to: '/about', label: 'About', icon: '📊' },
     { to: '/city', label: 'City', icon: '🏙️' },
-    { to: '/forest', label: 'Forest', icon: '🌲' },
+    { to: '/storage', label: 'Storage', icon: '🧺' },
+];
+
+const playerNavItems: NavItem[] = [
     { to: '/skills', label: 'Skills', icon: '🛠️' },
+];
+
+const resourceNavItems: NavItem[] = [
+    { to: '/forest', label: 'Forest', icon: '🌲' },
+];
+
+const miscNavItems: NavItem[] = [
+    { to: '/about', label: 'About', icon: '📊' },
+    { to: '/settings', label: 'Settings', icon: '📊' },
 ];
 
 const NavbarSide = () => {
     return (
         <aside className="h-full w-48 border-r border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-            <div className="mb-8 text-xl font-bold text-indigo-700 dark:text-indigo-400">
+            <div className="mb-8 text-lg font-bold text-indigo-700 dark:text-indigo-400">
                 Project Rhezma
             </div>
 
-            <nav className="flex flex-col items-center space-y-2">
-                {navItems.map((item) => (
-                    <NavLink item={item} />
-                ))}
+            <nav>
+                <NavList list={cityNavItems} sectionTitle="City" />
+                <NavList list={resourceNavItems} sectionTitle="Resources" />
+                <NavList list={playerNavItems} sectionTitle="Player" />
+                <NavList list={miscNavItems} sectionTitle="Misc." />
             </nav>
         </aside>
     );

@@ -1,23 +1,37 @@
 import ForestrySkill from '@game/skills/Forestry';
 
+export interface PlayerData {
+    username: string;
+    forestryXP: number;
+    forestryLevel: number;
+}
+
 export default class Player {
-    private name: string;
+    private username: string;
     private forestrySkill: ForestrySkill;
 
-    constructor(name: string) {
-        this.name = name;
-        this.forestrySkill = new ForestrySkill();
+    constructor(data: PlayerData) {
+        this.username = data.username;
+        this.forestrySkill = new ForestrySkill(data.forestryXP);
     }
 
-    getName(): string {
-        return this.name;
+    public getName(): string {
+        return this.username;
     }
 
-    setName(name: string): void {
-        this.name = name;
+    public setName(name: string): void {
+        this.username = name;
     }
 
-    getForestrySkill(): ForestrySkill {
+    public getForestrySkill(): ForestrySkill {
         return this.forestrySkill;
+    }
+
+    public getData(): PlayerData {
+        return {
+            username: this.username,
+            forestryXP: this.forestrySkill.getXP(),
+            forestryLevel: this.forestrySkill.getLevel(),
+        };
     }
 }

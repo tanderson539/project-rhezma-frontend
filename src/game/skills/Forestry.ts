@@ -1,6 +1,6 @@
 import { Skill } from './Skill';
 
-interface ForestryActionPayload {
+export interface ForestryActionPayload {
     treeType: 'Tree' | 'Oak Tree';
 }
 

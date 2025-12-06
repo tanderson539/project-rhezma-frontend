@@ -16,7 +16,7 @@ export function getXPForLevel(level: number): number {
     for (let currentLevel = 1; currentLevel < level; currentLevel++) {
         const N = currentLevel;
         const requiredForNextLevel = Math.floor(
-            (N + 200 * Math.pow(2, N / 7)) / 3
+            (N + 300 * Math.pow(2, N / 6)) / 4
         );
 
         totalXP += requiredForNextLevel;

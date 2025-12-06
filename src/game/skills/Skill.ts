@@ -26,10 +26,18 @@ export abstract class Skill {
         this.currentLevel = getLevelForXP(initialXP);
     }
 
+    /**
+     * Returns the current total XP of the skill.
+     * @returns The current XP.
+     */
     public getXP(): number {
         return this.currentXP;
     }
 
+    /**
+     * Returns the current level of the skill.
+     * @returns The current skill level.
+     */
     public getLevel(): number {
         return this.currentLevel;
     }
@@ -105,7 +113,7 @@ export abstract class Skill {
         );
 
         for (let level = oldLevel + 1; level <= newLevel; level++) {
-            this.checkUnlocks(level);
+            //this.checkUnlocks(level);
         }
     }
 
