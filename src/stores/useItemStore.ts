@@ -6,6 +6,7 @@ import {
 import { useMemo } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useShallow } from 'zustand/shallow';
 
 /**
  * Defines the functions available to manipulate item state.
@@ -111,28 +112,11 @@ const useItemStore = create<ItemState>()(
  * @returns A DisplayItem array containing the items currently in the player's possession for display on the UI.
  */
 export const useDisplayItems = (): DisplayItem[] => {
-    const items = useItemStore((state) => state.items);
+    const getDisplayItems = useItemStore(
+        useShallow((state) => state.actions.getDisplayItems)
+    );
 
-    return useMemo(() => {
-        const displayItems = [];
-
-        for (const key in items) {
-            const itemKey = key as ItemKey;
-            const count = items[itemKey]!;
-
-            if (count > 0 && ITEM_CATALOG[itemKey]) {
-                displayItems.push({
-                    key: itemKey,
-                    name: ITEM_CATALOG[itemKey].name,
-                    count: count,
-                });
-            }
-        }
-
-        displayItems.sort((a, b) => a.name.localeCompare(b.name));
-
-        return displayItems;
-    }, [items]);
+    return useMemo(() => getDisplayItems(), [getDisplayItems]);
 };
 
 /**
@@ -140,5 +124,7 @@ export const useDisplayItems = (): DisplayItem[] => {
  * @returns An object containing all item store actions functions.
  */
 export const useItemActions = () => {
-    return useItemStore((state) => state.actions);
+    const actions = useItemStore((state) => state.actions);
+
+    return useMemo(() => actions, [actions]);
 };

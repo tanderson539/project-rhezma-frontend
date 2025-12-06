@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import TreeButton from '@components/forestry/buttons/TreeButton';
 import OakTreeButton from '@components/forestry/buttons/OakTreeButton';
-import { useItemActions } from '@root/stores/useItemStore';
 import type { ItemKey } from '@root/game/items/Item_Catelog';
 import { usePlayerActions } from '@root/stores/usePlayerStore';
+import { useItemActions } from '@root/stores/useItemStore';
 
 export const Route = createFileRoute('/forest')({
     component: RouteComponent,
@@ -12,14 +12,15 @@ export const Route = createFileRoute('/forest')({
 function RouteComponent() {
     const { addItem } = useItemActions();
 
-    const giveForestryXP = usePlayerActions().performForestryAction;
+    const { performForestryAction } = usePlayerActions();
 
     const handleClick = (item: ItemKey, amt: number) => {
         addItem(item, amt);
+
         if (item === 'WOOD_LOG') {
-            giveForestryXP({ treeType: 'Tree' });
+            performForestryAction({ treeType: 'Tree' });
         } else if (item === 'OAK_LOG') {
-            giveForestryXP({ treeType: 'Oak Tree' });
+            performForestryAction({ treeType: 'Oak Tree' });
         }
     };
 
