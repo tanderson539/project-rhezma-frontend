@@ -1,4 +1,4 @@
-import { useGetForestryData } from '@root/stores/usePlayerStore';
+import { usePlayerActions } from '@root/stores/usePlayerStore';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/skills')({
@@ -7,7 +7,7 @@ export const Route = createFileRoute('/skills')({
 
 function RouteComponent() {
     const { forestryXP, forestryLevel, forestryXPToNextLevel } =
-        useGetForestryData();
+        usePlayerActions().getForestryData();
     return (
         <div>
             <h2>Forestry Skill</h2>

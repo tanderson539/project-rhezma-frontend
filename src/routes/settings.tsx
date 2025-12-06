@@ -1,5 +1,5 @@
 import { useResetItems } from '@root/stores/useItemStore';
-import { useResetPlayerStore } from '@root/stores/usePlayerStore';
+import { usePlayerActions } from '@root/stores/usePlayerStore';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/settings')({
@@ -8,7 +8,7 @@ export const Route = createFileRoute('/settings')({
 
 function RouteComponent() {
     const resetItems = useResetItems();
-    const resetPlayer = useResetPlayerStore();
+    const resetPlayer = usePlayerActions().reset;
 
     return (
         <div className="p-4 text-white">

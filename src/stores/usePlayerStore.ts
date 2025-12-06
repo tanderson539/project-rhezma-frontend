@@ -4,14 +4,19 @@ import type { ForestryActionPayload } from '@root/game/skills/Forestry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface PlayerState {
-    playerData: PlayerData;
+interface PlayerActions {
     setUsername: (uname: string) => void;
     performForestryAction: (treeType: ForestryActionPayload) => void;
     getForestryXP: () => number;
     getForestryLevel: () => number;
     getForestryXPToNextLevel: () => number;
+    getForestryData: () => ForestryData;
     reset: () => void;
+}
+
+interface PlayerState {
+    playerData: PlayerData;
+    actions: PlayerActions;
 }
 
 interface ForestryData {
@@ -30,48 +35,57 @@ const usePlayerStore = create<PlayerState>()(
     persist(
         (set, get) => ({
             playerData: defaultPlayerState,
+            actions: {
+                setUsername: (uname: string) => {
+                    const currentData = get().playerData;
 
-            setUsername: (uname: string) => {
-                const currentData = get().playerData;
+                    const tempPlayer = new Player(currentData);
+                    tempPlayer.setName(uname);
 
-                const tempPlayer = new Player(currentData);
-                tempPlayer.setName(uname);
+                    set({ playerData: tempPlayer.getData() });
+                },
 
-                set({ playerData: tempPlayer.getData() });
+                performForestryAction: (treeType: ForestryActionPayload) => {
+                    const currentData = get().playerData;
+
+                    const tempPlayer = new Player(currentData);
+
+                    const baseXP = tempPlayer
+                        .getForestrySkill()
+                        .performAction(treeType);
+
+                    console.log(
+                        `Earned ${baseXP} XP. New level: ${tempPlayer.getForestrySkill().getLevel()}`
+                    );
+
+                    set({ playerData: tempPlayer.getData() });
+                },
+                getForestryXP: () => {
+                    return get().playerData.forestryXP;
+                },
+                getForestryLevel: () => {
+                    return get().playerData.forestryLevel;
+                },
+                getForestryXPToNextLevel: () => {
+                    const currentData = get().playerData;
+
+                    const tempPlayer = new Player(currentData);
+                    const forestrySkill: ForestrySkill =
+                        tempPlayer.getForestrySkill();
+
+                    return forestrySkill.getXPToNextLevel();
+                },
+                getForestryData: () => {
+                    const forestryXP = get().playerData.forestryXP;
+                    const forestryLevel = get().playerData.forestryLevel;
+                    const forestryXPToNextLevel =
+                        get().actions.getForestryXPToNextLevel();
+
+                    return { forestryXP, forestryLevel, forestryXPToNextLevel };
+                },
+
+                reset: () => set({ playerData: defaultPlayerState }),
             },
-
-            performForestryAction: (treeType: ForestryActionPayload) => {
-                const currentData = get().playerData;
-
-                const tempPlayer = new Player(currentData);
-
-                const baseXP = tempPlayer
-                    .getForestrySkill()
-                    .performAction(treeType);
-
-                console.log(
-                    `Earned ${baseXP} XP. New level: ${tempPlayer.getForestrySkill().getLevel()}`
-                );
-
-                set({ playerData: tempPlayer.getData() });
-            },
-            getForestryXP: () => {
-                return get().playerData.forestryXP;
-            },
-            getForestryLevel: () => {
-                return get().playerData.forestryLevel;
-            },
-            getForestryXPToNextLevel: () => {
-                const currentData = get().playerData;
-
-                const tempPlayer = new Player(currentData);
-                const forestrySkill: ForestrySkill =
-                    tempPlayer.getForestrySkill();
-
-                return forestrySkill.getXPToNextLevel();
-            },
-
-            reset: () => set({ playerData: defaultPlayerState }),
         }),
         {
             name: 'player-store',
@@ -86,29 +100,10 @@ const usePlayerStore = create<PlayerState>()(
     )
 );
 
-export const useSetUsername = (uname: string) => {
-    return usePlayerStore((state) => state.setUsername(uname));
-};
-
 export const useGetUsername = () => {
     return usePlayerStore((state) => state.playerData.username);
 };
 
-export const useGetForestryData = (): ForestryData => {
-    const forestryXP = usePlayerStore((state) => state.playerData.forestryXP);
-    const forestryLevel = usePlayerStore(
-        (state) => state.playerData.forestryLevel
-    );
-    const forestryXPToNextLevel = usePlayerStore((state) => {
-        return state.getForestryXPToNextLevel();
-    });
-    return { forestryXP, forestryLevel, forestryXPToNextLevel };
-};
-
-export const useForestryAction = () => {
-    return usePlayerStore((state) => state.performForestryAction);
-};
-
-export const useResetPlayerStore = () => {
-    return usePlayerStore((state) => state.reset);
+export const usePlayerActions = () => {
+    return usePlayerStore((state) => state.actions);
 };
