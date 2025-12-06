@@ -4,6 +4,9 @@ import type { ForestryActionPayload } from '@root/game/skills/Forestry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+/**
+ * Defines the functions available to manipulate player state.
+ */
 interface PlayerActions {
     setUsername: (uname: string) => void;
     performForestryAction: (treeType: ForestryActionPayload) => void;
@@ -14,23 +17,35 @@ interface PlayerActions {
     reset: () => void;
 }
 
+/**
+ * Defines the overall player state structure.
+ */
 interface PlayerState {
     playerData: PlayerData;
     actions: PlayerActions;
 }
 
+/**
+ * Defines the structure for forestry-related data retrieval.
+ */
 interface ForestryData {
     forestryXP: number;
     forestryLevel: number;
     forestryXPToNextLevel: number;
 }
 
+/**
+ * Defines the default player state upon loading a new game.
+ */
 const defaultPlayerState: PlayerData = {
     username: 'Player 1',
     forestryXP: 0,
     forestryLevel: 1,
 };
 
+/**
+ * Zustand store for managing player state and actions.
+ */
 const usePlayerStore = create<PlayerState>()(
     persist(
         (set, get) => ({
@@ -100,10 +115,18 @@ const usePlayerStore = create<PlayerState>()(
     )
 );
 
+/**
+ * Custom hook to retrieve the player's username from the store.
+ * @returns A string representing the player's username.
+ */
 export const useGetUsername = () => {
     return usePlayerStore((state) => state.playerData.username);
 };
 
+/**
+ * Custom hook to retrieve player action functions from the store.
+ * @returns An object containing all player actions functions.
+ */
 export const usePlayerActions = () => {
     return usePlayerStore((state) => state.actions);
 };
