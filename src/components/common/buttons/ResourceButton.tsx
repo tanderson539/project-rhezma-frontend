@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type FC, type ReactNode } from 'react';
+import { useState, type FC, type ReactNode } from 'react';
 import ResourceProgressBar from '../progress_bars/ResourceProgressBar';
+import useInterval from '@components/hooks/useInterval';
 
 interface Props {
     header: string;
@@ -30,34 +31,24 @@ const ResourceButton: FC<Props> = ({
 }) => {
     const [progress, setProgress] = useState<number>(0);
     const [isRunning, setIsRunning] = useState<boolean>(false);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    useEffect(() => {
-        if (!isRunning) {
-            if (intervalRef.current) clearInterval(intervalRef.current);
-            return;
-        }
+    const updateInterval = 25;
+    const increment = (updateInterval / length) * 100;
 
-        const updateInterval = 25;
-        const increment = (updateInterval / length) * 100;
+    const tick = () => {
+        setProgress((prev) => {
+            const newProgress = prev + increment;
 
-        intervalRef.current = setInterval(() => {
-            setProgress((prev) => {
-                const newProgress = prev + increment;
+            if (newProgress >= 100) {
+                onClick?.();
+                return 0;
+            }
 
-                if (newProgress >= 100) {
-                    onClick?.();
-                    return 0;
-                }
+            return newProgress;
+        });
+    };
 
-                return newProgress;
-            });
-        }, updateInterval);
-
-        return () => {
-            if (intervalRef.current) clearInterval(intervalRef.current);
-        };
-    }, [isRunning, length, onClick]);
+    useInterval(tick, isRunning ? updateInterval : null);
 
     const handleStartStop = () => {
         setIsRunning((prevIsRunning) => !prevIsRunning);

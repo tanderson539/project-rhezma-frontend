@@ -34,10 +34,9 @@
 }
 
 .grow:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .crosshair:hover {
-    transform: scale(1.05);
     box-shadow: 0 0 0 5px #334155;
 }
