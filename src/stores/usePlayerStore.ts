@@ -1,6 +1,10 @@
 import Player, { type PlayerData } from '@root/game/player/Player';
 import type ForestrySkill from '@root/game/skills/Forestry';
-import type { ForestryActionPayload } from '@root/game/skills/Forestry';
+import type {
+    ForestryActionPayload,
+    ForestryData,
+} from '@root/game/skills/Forestry';
+import type { MiningActionPayload, MiningData } from '@root/game/skills/Mining';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -10,10 +14,11 @@ import { persist } from 'zustand/middleware';
 interface PlayerActions {
     setUsername: (uname: string) => void;
     performForestryAction: (treeType: ForestryActionPayload) => void;
-    getForestryXP: () => number;
-    getForestryLevel: () => number;
     getForestryXPToNextLevel: () => number;
     getForestryData: () => ForestryData;
+    performMiningAction: (oreType: MiningActionPayload) => void;
+    getMiningXPToNextLevel: () => number;
+    getMiningData: () => MiningData;
     reset: () => void;
 }
 
@@ -26,21 +31,14 @@ interface PlayerState {
 }
 
 /**
- * Defines the structure for forestry-related data retrieval.
- */
-interface ForestryData {
-    forestryXP: number;
-    forestryLevel: number;
-    forestryXPToNextLevel: number;
-}
-
-/**
  * Defines the default player state upon loading a new game.
  */
 const defaultPlayerState: PlayerData = {
     username: 'Player 1',
     forestryXP: 0,
     forestryLevel: 1,
+    miningXP: 0,
+    miningLevel: 1,
 };
 
 /**
@@ -69,17 +67,9 @@ const usePlayerStore = create<PlayerState>()(
                         .getForestrySkill()
                         .performAction(treeType);
 
-                    console.log(
-                        `Earned ${baseXP} XP. New level: ${tempPlayer.getForestrySkill().getLevel()}`
-                    );
+                    console.log(`Earned ${baseXP} Forestry XP.`);
 
                     set({ playerData: tempPlayer.getData() });
-                },
-                getForestryXP: () => {
-                    return get().playerData.forestryXP;
-                },
-                getForestryLevel: () => {
-                    return get().playerData.forestryLevel;
                 },
                 getForestryXPToNextLevel: () => {
                     const currentData = get().playerData;
@@ -97,6 +87,35 @@ const usePlayerStore = create<PlayerState>()(
                         get().actions.getForestryXPToNextLevel();
 
                     return { forestryXP, forestryLevel, forestryXPToNextLevel };
+                },
+                performMiningAction: (oreType: MiningActionPayload) => {
+                    const currentData = get().playerData;
+
+                    const tempPlayer = new Player(currentData);
+
+                    const baseXP = tempPlayer
+                        .getMiningSkill()
+                        .performAction(oreType);
+
+                    console.log(`Earned ${baseXP} Mining XP.`);
+
+                    set({ playerData: tempPlayer.getData() });
+                },
+                getMiningXPToNextLevel: () => {
+                    const currentData = get().playerData;
+
+                    const tempPlayer = new Player(currentData);
+                    const miningSkill = tempPlayer.getMiningSkill();
+
+                    return miningSkill.getXPToNextLevel();
+                },
+                getMiningData: () => {
+                    const miningXP = get().playerData.miningXP;
+                    const miningLevel = get().playerData.miningLevel;
+                    const miningXPToNextLevel =
+                        get().actions.getMiningXPToNextLevel();
+
+                    return { miningXP, miningLevel, miningXPToNextLevel };
                 },
 
                 reset: () => set({ playerData: defaultPlayerState }),

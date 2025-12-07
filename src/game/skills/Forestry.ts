@@ -1,7 +1,19 @@
 import { Skill } from './Skill';
 
+/**
+ * Defines the types of trees available to be chopped by a player.
+ */
 export interface ForestryActionPayload {
     treeType: 'Tree' | 'Oak Tree';
+}
+
+/**
+ * Defines the structure for forestry-related data retrieval.
+ */
+export interface ForestryData {
+    forestryXP: number;
+    forestryLevel: number;
+    forestryXPToNextLevel: number;
 }
 
 export default class ForestrySkill extends Skill {

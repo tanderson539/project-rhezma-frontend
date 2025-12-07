@@ -13,6 +13,7 @@ const playerNavItems: NavItem[] = [
 
 const resourceNavItems: NavItem[] = [
     { to: '/forest', label: 'Forest', icon: '🌲' },
+    { to: '/mine', label: 'Mine', icon: '⛏️' },
 ];
 
 const miscNavItems: NavItem[] = [

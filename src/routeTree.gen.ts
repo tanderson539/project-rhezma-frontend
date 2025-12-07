@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StorageRouteImport } from './routes/storage'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as MineRouteImport } from './routes/mine'
 import { Route as ForestRouteImport } from './routes/forest'
 import { Route as CityRouteImport } from './routes/city'
 import { Route as AboutRouteImport } from './routes/about'
@@ -30,6 +31,11 @@ const SkillsRoute = SkillsRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MineRoute = MineRouteImport.update({
+  id: '/mine',
+  path: '/mine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForestRoute = ForestRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/city': typeof CityRoute
   '/forest': typeof ForestRoute
+  '/mine': typeof MineRoute
   '/settings': typeof SettingsRoute
   '/skills': typeof SkillsRoute
   '/storage': typeof StorageRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/city': typeof CityRoute
   '/forest': typeof ForestRoute
+  '/mine': typeof MineRoute
   '/settings': typeof SettingsRoute
   '/skills': typeof SkillsRoute
   '/storage': typeof StorageRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/city': typeof CityRoute
   '/forest': typeof ForestRoute
+  '/mine': typeof MineRoute
   '/settings': typeof SettingsRoute
   '/skills': typeof SkillsRoute
   '/storage': typeof StorageRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/city'
     | '/forest'
+    | '/mine'
     | '/settings'
     | '/skills'
     | '/storage'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/city'
     | '/forest'
+    | '/mine'
     | '/settings'
     | '/skills'
     | '/storage'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/city'
     | '/forest'
+    | '/mine'
     | '/settings'
     | '/skills'
     | '/storage'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CityRoute: typeof CityRoute
   ForestRoute: typeof ForestRoute
+  MineRoute: typeof MineRoute
   SettingsRoute: typeof SettingsRoute
   SkillsRoute: typeof SkillsRoute
   StorageRoute: typeof StorageRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mine': {
+      id: '/mine'
+      path: '/mine'
+      fullPath: '/mine'
+      preLoaderRoute: typeof MineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forest': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CityRoute: CityRoute,
   ForestRoute: ForestRoute,
+  MineRoute: MineRoute,
   SettingsRoute: SettingsRoute,
   SkillsRoute: SkillsRoute,
   StorageRoute: StorageRoute,
