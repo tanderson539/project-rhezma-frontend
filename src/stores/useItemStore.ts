@@ -103,6 +103,7 @@ const useItemStore = create<ItemState>()(
         }),
         {
             name: 'game-items',
+            partialize: (state) => ({ items: state.items }),
         }
     )
 );

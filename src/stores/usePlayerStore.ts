@@ -111,6 +111,7 @@ const usePlayerStore = create<PlayerState>()(
                 }
                 return currentState;
             },
+            partialize: (state) => ({ playerData: state.playerData }),
         }
     )
 );

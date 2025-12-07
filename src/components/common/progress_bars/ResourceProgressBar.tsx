@@ -14,7 +14,7 @@ const ResourceProgressBar: FC<Props> = ({
     return (
         <div className={`bg-gray-600 ${barClassName}`}>
             <div
-                className={`h-full bg-green-600 transition-all duration-500 ease-in-out ${fillClassName}`}
+                className={`h-full bg-green-600 ${fillClassName}`}
                 style={{ width: `${progress}%` }}
             ></div>
         </div>
