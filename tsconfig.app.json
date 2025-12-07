@@ -5,8 +5,9 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
     "skipLibCheck": true,
+    
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -29,7 +30,8 @@
       "@components/*": ["components/*"],
       "@root/*": ["./*"],
       "@assets/*": ["assets/*"],
-      "@layout/*": ["layout/*"]
+      "@layout/*": ["layout/*"],
+      "@game/*": ["game/*"]
     }
   },
   "include": ["src/**/*"]

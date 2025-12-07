@@ -1,9 +1,10 @@
 import ResourceButton from '@components/common/buttons/ResourceButton';
 import tree from '@assets/tree.png';
 import type { FC } from 'react';
+import type { ItemKey } from '@root/game/items/Item_Catelog';
 
 interface Props {
-    onClick: (amt: number) => void;
+    onClick: (item: ItemKey, amt: number) => void;
     className?: string;
 }
 
@@ -12,7 +13,7 @@ const OakTreeButton: FC<Props> = ({ onClick, className = '' }) => {
         <ResourceButton
             header="Oak Tree"
             subheader="1 oak log / 10xp"
-            onClick={() => onClick(1)}
+            onClick={() => onClick('OAK_LOG', 1)}
             className={`${className}`}
         >
             <img src={tree} alt="tree" />

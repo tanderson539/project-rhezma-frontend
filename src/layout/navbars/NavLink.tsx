@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import type { FC } from 'react';
-import type { NavItem } from 'types/GlobalTypes';
+import type { NavItem } from '@root/game/types/GlobalTypes';
 
 interface Props {
     item: NavItem;
